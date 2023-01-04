@@ -1,0 +1,754 @@
+<!DOCTYPE HTML>
+<html lang="uk" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Рефакторизація для покращення модульності та обробки помилок - Мова програмування Rust</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="title-page.html">The Rust Programming Language</a></li><li class="chapter-item expanded affix "><a href="foreword.html">Foreword</a></li><li class="chapter-item expanded affix "><a href="ch00-00-introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="ch01-00-getting-started.html"><strong aria-hidden="true">1.</strong> Початок</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch01-01-installation.html"><strong aria-hidden="true">1.1.</strong> Встановлення</a></li><li class="chapter-item expanded "><a href="ch01-02-hello-world.html"><strong aria-hidden="true">1.2.</strong> Hello, World!</a></li><li class="chapter-item expanded "><a href="ch01-03-hello-cargo.html"><strong aria-hidden="true">1.3.</strong> Hello, Cargo!</a></li></ol></li><li class="chapter-item expanded "><a href="ch02-00-guessing-game-tutorial.html"><strong aria-hidden="true">2.</strong> Програмування гри - відгадайки</a></li><li class="chapter-item expanded "><a href="ch03-00-common-programming-concepts.html"><strong aria-hidden="true">3.</strong> Загальні концепції програмування</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch03-01-variables-and-mutability.html"><strong aria-hidden="true">3.1.</strong> Змінні та мутабельність</a></li><li class="chapter-item expanded "><a href="ch03-02-data-types.html"><strong aria-hidden="true">3.2.</strong> Типи даних</a></li><li class="chapter-item expanded "><a href="ch03-03-how-functions-work.html"><strong aria-hidden="true">3.3.</strong> Функції</a></li><li class="chapter-item expanded "><a href="ch03-04-comments.html"><strong aria-hidden="true">3.4.</strong> Коментарі</a></li><li class="chapter-item expanded "><a href="ch03-05-control-flow.html"><strong aria-hidden="true">3.5.</strong> Управління потоком виконання</a></li></ol></li><li class="chapter-item expanded "><a href="ch04-00-understanding-ownership.html"><strong aria-hidden="true">4.</strong> Розуміння володіння</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch04-01-what-is-ownership.html"><strong aria-hidden="true">4.1.</strong> Що таке володіння?</a></li><li class="chapter-item expanded "><a href="ch04-02-references-and-borrowing.html"><strong aria-hidden="true">4.2.</strong> Посилання і позичання</a></li><li class="chapter-item expanded "><a href="ch04-03-slices.html"><strong aria-hidden="true">4.3.</strong> Тип даних слайс</a></li></ol></li><li class="chapter-item expanded "><a href="ch05-00-structs.html"><strong aria-hidden="true">5.</strong> Використання структур для структурування пов'язаних даних</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch05-01-defining-structs.html"><strong aria-hidden="true">5.1.</strong> Визначення і інстанціювання структур Struct</a></li><li class="chapter-item expanded "><a href="ch05-02-example-structs.html"><strong aria-hidden="true">5.2.</strong> Приклад програми, що використовує структури</a></li><li class="chapter-item expanded "><a href="ch05-03-method-syntax.html"><strong aria-hidden="true">5.3.</strong> Синтаксис методів</a></li></ol></li><li class="chapter-item expanded "><a href="ch06-00-enums.html"><strong aria-hidden="true">6.</strong> Енуми і зіставлення з шаблоном</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch06-01-defining-an-enum.html"><strong aria-hidden="true">6.1.</strong> Визначення енума</a></li><li class="chapter-item expanded "><a href="ch06-02-match.html"><strong aria-hidden="true">6.2.</strong> Конструкція управління match</a></li><li class="chapter-item expanded "><a href="ch06-03-if-let.html"><strong aria-hidden="true">6.3.</strong> Лаконічний контроль виконання конструкцією if let</a></li></ol></li><li class="chapter-item expanded "><a href="ch07-00-managing-growing-projects-with-packages-crates-and-modules.html"><strong aria-hidden="true">7.</strong> Керування проєктами, що зростають, за допомогою пакетів, крейтів та модулів</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch07-01-packages-and-crates.html"><strong aria-hidden="true">7.1.</strong> Пакети та крейти</a></li><li class="chapter-item expanded "><a href="ch07-02-defining-modules-to-control-scope-and-privacy.html"><strong aria-hidden="true">7.2.</strong> Визначення модулів для управління областями видимості та приватністю</a></li><li class="chapter-item expanded "><a href="ch07-03-paths-for-referring-to-an-item-in-the-module-tree.html"><strong aria-hidden="true">7.3.</strong> Referring to Names in Different Modules</a></li><li class="chapter-item expanded "><a href="ch07-04-bringing-paths-into-scope-with-the-use-keyword.html"><strong aria-hidden="true">7.4.</strong> Підключення шляхів до області видимості за допомогою ключового слова use</a></li><li class="chapter-item expanded "><a href="ch07-05-separating-modules-into-different-files.html"><strong aria-hidden="true">7.5.</strong> Розподіл модулів на різні файли</a></li></ol></li><li class="chapter-item expanded "><a href="ch08-00-common-collections.html"><strong aria-hidden="true">8.</strong> Common Collections</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch08-01-vectors.html"><strong aria-hidden="true">8.1.</strong> Vectors</a></li><li class="chapter-item expanded "><a href="ch08-02-strings.html"><strong aria-hidden="true">8.2.</strong> Strings</a></li><li class="chapter-item expanded "><a href="ch08-03-hash-maps.html"><strong aria-hidden="true">8.3.</strong> Hash Maps</a></li></ol></li><li class="chapter-item expanded "><a href="ch09-00-error-handling.html"><strong aria-hidden="true">9.</strong> Обробка помилок</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch09-01-unrecoverable-errors-with-panic.html"><strong aria-hidden="true">9.1.</strong> Невідновні Помилки із panic!</a></li><li class="chapter-item expanded "><a href="ch09-02-recoverable-errors-with-result.html"><strong aria-hidden="true">9.2.</strong> Помилки, що піддаються відновленню за допомогою Result</a></li><li class="chapter-item expanded "><a href="ch09-03-to-panic-or-not-to-panic.html"><strong aria-hidden="true">9.3.</strong> panic! чи не panic!</a></li></ol></li><li class="chapter-item expanded "><a href="ch10-00-generics.html"><strong aria-hidden="true">10.</strong> Узагальнені типи, трейти та лайфтайми</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch10-01-syntax.html"><strong aria-hidden="true">10.1.</strong> Узагальнені типи даних</a></li><li class="chapter-item expanded "><a href="ch10-02-traits.html"><strong aria-hidden="true">10.2.</strong> Трейти: визначення загальної поведінки</a></li><li class="chapter-item expanded "><a href="ch10-03-lifetime-syntax.html"><strong aria-hidden="true">10.3.</strong> Перевірка коректності посилань за допомогою часів існування</a></li></ol></li><li class="chapter-item expanded "><a href="ch11-00-testing.html"><strong aria-hidden="true">11.</strong> Написання автоматизованих тестів</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch11-01-writing-tests.html"><strong aria-hidden="true">11.1.</strong> Як писати тести</a></li><li class="chapter-item expanded "><a href="ch11-02-running-tests.html"><strong aria-hidden="true">11.2.</strong> Контроль над запуском тестів</a></li><li class="chapter-item expanded "><a href="ch11-03-test-organization.html"><strong aria-hidden="true">11.3.</strong> Організація тестів</a></li></ol></li><li class="chapter-item expanded "><a href="ch12-00-an-io-project.html"><strong aria-hidden="true">12.</strong> Проєкт з введенням/виведенням: створення програми командного рядка</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch12-01-accepting-command-line-arguments.html"><strong aria-hidden="true">12.1.</strong> Приймання аргументів командного рядка</a></li><li class="chapter-item expanded "><a href="ch12-02-reading-a-file.html"><strong aria-hidden="true">12.2.</strong> Читання файлу</a></li><li class="chapter-item expanded "><a href="ch12-03-improving-error-handling-and-modularity.html" class="active"><strong aria-hidden="true">12.3.</strong> Рефакторизація для покращення модульності та обробки помилок</a></li><li class="chapter-item expanded "><a href="ch12-04-testing-the-librarys-functionality.html"><strong aria-hidden="true">12.4.</strong> Розробка Функціонала Бібліотеки із Test-Driven Development</a></li><li class="chapter-item expanded "><a href="ch12-05-working-with-environment-variables.html"><strong aria-hidden="true">12.5.</strong> Робота зі Змінними Середовища</a></li><li class="chapter-item expanded "><a href="ch12-06-writing-to-stderr-instead-of-stdout.html"><strong aria-hidden="true">12.6.</strong> Написання Повідомлень Про Помилки в Standard Error Замість Стандартного Виводу</a></li></ol></li><li class="chapter-item expanded "><a href="ch13-00-functional-features.html"><strong aria-hidden="true">13.</strong> Функціональні можливості мови: Ітератори та Замикання</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch13-01-closures.html"><strong aria-hidden="true">13.1.</strong> Замикання: Анонімні Функції що Захоплюють Своє Середовище</a></li><li class="chapter-item expanded "><a href="ch13-02-iterators.html"><strong aria-hidden="true">13.2.</strong> Обробка послідовностей елементів за допомогою ітераторів</a></li><li class="chapter-item expanded "><a href="ch13-03-improving-our-io-project.html"><strong aria-hidden="true">13.3.</strong> Покращуємо наш проєкт з введенням/виведенням</a></li><li class="chapter-item expanded "><a href="ch13-04-performance.html"><strong aria-hidden="true">13.4.</strong> Порівняння швидкодії: цикли проти ітераторів</a></li></ol></li><li class="chapter-item expanded "><a href="ch14-00-more-about-cargo.html"><strong aria-hidden="true">14.</strong> Більше про Cargo та Crates.io</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch14-01-release-profiles.html"><strong aria-hidden="true">14.1.</strong> Налаштування Збірок з Release Профілями</a></li><li class="chapter-item expanded "><a href="ch14-02-publishing-to-crates-io.html"><strong aria-hidden="true">14.2.</strong> Публікація Крейта на Crates.io</a></li><li class="chapter-item expanded "><a href="ch14-03-cargo-workspaces.html"><strong aria-hidden="true">14.3.</strong> Робочі Області Cargo</a></li><li class="chapter-item expanded "><a href="ch14-04-installing-binaries.html"><strong aria-hidden="true">14.4.</strong> Installing Binaries from Crates.io with cargo install</a></li><li class="chapter-item expanded "><a href="ch14-05-extending-cargo.html"><strong aria-hidden="true">14.5.</strong> Розширення Cargo із Користувацькими Командами</a></li></ol></li><li class="chapter-item expanded "><a href="ch15-00-smart-pointers.html"><strong aria-hidden="true">15.</strong> Розумні вказівники</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch15-01-box.html"><strong aria-hidden="true">15.1.</strong> Використання Box&lt;T&gt; для вказування на значення в Heap</a></li><li class="chapter-item expanded "><a href="ch15-02-deref.html"><strong aria-hidden="true">15.2.</strong> Використання розумних вказівників як звичайних посилань за допомогою трейта Deref</a></li><li class="chapter-item expanded "><a href="ch15-03-drop.html"><strong aria-hidden="true">15.3.</strong> Виконання коду при очищенні за допомогою трейту Drop</a></li><li class="chapter-item expanded "><a href="ch15-04-rc.html"><strong aria-hidden="true">15.4.</strong> Rc&lt;T&gt;, розумний вказівник з лічильником посилань</a></li><li class="chapter-item expanded "><a href="ch15-05-interior-mutability.html"><strong aria-hidden="true">15.5.</strong> RefCell&lt;T&gt; і шаблон внутрішньої мутабельності</a></li><li class="chapter-item expanded "><a href="ch15-06-reference-cycles.html"><strong aria-hidden="true">15.6.</strong> Цикли посилань можуть призвести до витоку пам'яті</a></li></ol></li><li class="chapter-item expanded "><a href="ch16-00-concurrency.html"><strong aria-hidden="true">16.</strong> Конкурентність без страху</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch16-01-threads.html"><strong aria-hidden="true">16.1.</strong> Threads</a></li><li class="chapter-item expanded "><a href="ch16-02-message-passing.html"><strong aria-hidden="true">16.2.</strong> Message Passing</a></li><li class="chapter-item expanded "><a href="ch16-03-shared-state.html"><strong aria-hidden="true">16.3.</strong> Shared State</a></li><li class="chapter-item expanded "><a href="ch16-04-extensible-concurrency-sync-and-send.html"><strong aria-hidden="true">16.4.</strong> Extensible Concurrency: Sync and Send</a></li></ol></li><li class="chapter-item expanded "><a href="ch17-00-oop.html"><strong aria-hidden="true">17.</strong> Is Rust an Object-Oriented Programming Language?</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch17-01-what-is-oo.html"><strong aria-hidden="true">17.1.</strong> What Does Object-Oriented Mean?</a></li><li class="chapter-item expanded "><a href="ch17-02-trait-objects.html"><strong aria-hidden="true">17.2.</strong> Trait Objects for Using Values of Different Types</a></li><li class="chapter-item expanded "><a href="ch17-03-oo-design-patterns.html"><strong aria-hidden="true">17.3.</strong> Object-Oriented Design Pattern Implementations</a></li></ol></li><li class="chapter-item expanded "><a href="ch18-00-patterns.html"><strong aria-hidden="true">18.</strong> Шаблони та Зіставлення Шаблонів</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch18-01-all-the-places-for-patterns.html"><strong aria-hidden="true">18.1.</strong> All the Places Patterns May be Used</a></li><li class="chapter-item expanded "><a href="ch18-02-refutability.html"><strong aria-hidden="true">18.2.</strong> Спростовуваність: Чи Може Шаблон Бути Невідповідним</a></li><li class="chapter-item expanded "><a href="ch18-03-pattern-syntax.html"><strong aria-hidden="true">18.3.</strong> All the Pattern Syntax</a></li></ol></li><li class="chapter-item expanded "><a href="ch19-00-advanced-features.html"><strong aria-hidden="true">19.</strong> Просунутий функціонал</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch19-01-unsafe-rust.html"><strong aria-hidden="true">19.1.</strong> Небезпечний Rust</a></li><li class="chapter-item expanded "><a href="ch19-03-advanced-traits.html"><strong aria-hidden="true">19.2.</strong> Поглиблено про трейти</a></li><li class="chapter-item expanded "><a href="ch19-04-advanced-types.html"><strong aria-hidden="true">19.3.</strong> Поглиблено про типи</a></li><li class="chapter-item expanded "><a href="ch19-05-advanced-functions-and-closures.html"><strong aria-hidden="true">19.4.</strong> Поглиблено про функції та замикання</a></li><li class="chapter-item expanded "><a href="ch19-06-macros.html"><strong aria-hidden="true">19.5.</strong> Advanced Functions & Closures</a></li></ol></li><li class="chapter-item expanded "><a href="ch20-00-final-project-a-web-server.html"><strong aria-hidden="true">20.</strong> Останній проєкт: збірка багатопотокового вебсервера</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="ch20-01-single-threaded.html"><strong aria-hidden="true">20.1.</strong> Збірка однопотокового вебсервера</a></li><li class="chapter-item expanded "><a href="ch20-02-multithreaded.html"><strong aria-hidden="true">20.2.</strong> Перетворюємо наш однопотоковий сервер на багатопотоковий</a></li><li class="chapter-item expanded "><a href="ch20-03-graceful-shutdown-and-cleanup.html"><strong aria-hidden="true">20.3.</strong> Плавне вимикання і очищення</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-00.html"><strong aria-hidden="true">21.</strong> Додатки</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-01-keywords.html"><strong aria-hidden="true">21.1.</strong> A - Ключові слова</a></li><li class="chapter-item expanded "><a href="appendix-02-operators.html"><strong aria-hidden="true">21.2.</strong> B - оператори та символи</a></li><li class="chapter-item expanded "><a href="appendix-03-derivable-traits.html"><strong aria-hidden="true">21.3.</strong> C - Derivable Traits</a></li><li class="chapter-item expanded "><a href="appendix-04-useful-development-tools.html"><strong aria-hidden="true">21.4.</strong> D - Macros</a></li><li class="chapter-item expanded "><a href="appendix-05-editions.html"><strong aria-hidden="true">21.5.</strong> E - Translations</a></li><li class="chapter-item expanded "><a href="appendix-06-translation.html"><strong aria-hidden="true">21.6.</strong> F - Newest Features</a></li><li class="chapter-item expanded "><a href="appendix-07-nightly-rust.html"><strong aria-hidden="true">21.7.</strong> Додаток G - як робиться Rust і "щонічний Rust"</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Мова програмування Rust</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="Рефакторизація-для-покращення-модульності-та-обробки-помилок"><a class="header" href="#Рефакторизація-для-покращення-модульності-та-обробки-помилок">Рефакторизація для покращення модульності та обробки помилок</a></h2>
+<p>Для покращення програми ми розв'яжемо чотири проблеми, пов’язані зі структурою програми та тим, як вона обробляє потенційні помилки. По-перше, наша функція <code>main</code> тепер виконує два завдання: розбирає параметри та читає файли. Зі зростанням нашої програми кількість окремих завдань, які обробляє функція <code>main</code>, збільшуватиметься. Зі збільшенням відповідальності функції її стає складніше розуміти, важче тестувати, важче змінювати, не порушуючи інших її частин. Найкраще розділити функціональність, щоб кожна функція відповідала за одне завдання.</p>
+<p>Це питання також пов'язане з другою проблемою: у той час, як змінні <code>query</code> та <code>file_path</code> є конфігураційними змінними нашої програми, змінні на кшталт <code>contents</code> використовуються для реалізації логіки програм. Що довшим ставатиме <code>main</code>, то більше змінних треба буде додати в область видимості; що більше змінних в області видимості, тим складніше буде відстежувати призначення кожної з них. Найкраще згрупувати конфігураційні змінні в одну структуру, щоб унаочнити їнє призначення.</p>
+<p>Третя проблема полягає в тому, що ми використали <code>expect</code>, щоб вивести повідомлення про помилку, коли не вдається прочитати файл, але саме повідомлення лише каже <code>Should have been able to read the file</code>. Читання файлу може бути невдалим через багато причин: скажімо, такого файлу може не існувати, або у нас може не бути прав відкривати його. Поки що, незалежно від ситуації, ми виводимо те саме повідомлення про помилку для будь-якої причини, що не дає користувачеві жодної інформації!</p>
+<p>По-четверте, ми використовуємо <code>expect</code> знову і знову для обробки різних помилок, і якщо користувач запустить програму, не вказавши потрібні параметри, то побачить лише повідомлення Rust про помилку <code>index out of bounds</code>, що не дуже чітко описує проблему. Найкраще буде, якщо код обробки помилок буде в одному місці, щоб той, хто підтримуватиме код у майбутньому, мав зазирнути лише в одне місце в коді, якщо треба буде змінити логіку обробки помилок. Те, що код обробки помилок знаходиться в одному місці, також гарантує, що ми друкуємо повідомлення, зрозумілі для наших кінцевих користувачів.</p>
+<p>Щоб виправити ці чотири проблеми, зробімо рефакторинг нашого проєкту.</p>
+<h3 id="Розділення-зон-інтересів-у-двійкових-проєктах"><a class="header" href="#Розділення-зон-інтересів-у-двійкових-проєктах">Розділення зон інтересів у двійкових проєктах</a></h3>
+<p>Організаційна проблема поділу відповідальності за різні завдання у функції <code>main</code> є спільною для багатьох двійкових проєктів. У результаті спільнота Rust розробила рекомендації для поділу окремих інтересів у двійковій програмі, коли функція <code>main</code> починає ставати великою. Процес складається з наступних кроків:</p>
+<ul>
+<li>Поділіть свою програму на <em>main.rs</em> та <em>lib.rs</em> і перенесіть логіку програми до <em>lib.rs</em>.</li>
+<li>Поки логіка для аналізу командного рядка невелика, вона може залишатися в <em>main.rs</em>.</li>
+<li>Коли обробка логіки командного рядка починає ускладнюватись, витягніть її з <em>main.rs</em> і перемістіть до <em>lib.rs</em>.</li>
+</ul>
+<p>Відповідальність коду, що залишиться в функції <code>main</code> після цього, має бути обмеженою до такого:</p>
+<ul>
+<li>Виклик логіки аналізу командного рядка і передача їй значень аргументів</li>
+<li>Налаштування решти конфігурації</li>
+<li>Виклик функції <code>run</code> із <em>lib.rs</em></li>
+<li>Обробка помилок, якщо <code>run</code> поверне помилку</li>
+</ul>
+<p>Цей шаблон стосується поділу інтересів: <em>main.rs</em> обробляє запуск програми, а <em>lib.rs</em> обробляє всю логіку основного завдання. Оскільки функцію <code>main</code> неможливо тестувати напряму, ця структура дозволяє вам тестувати усю логіку вашої програми, перенісши її до функцій у <em>lib.rs</em>. Код, що залишився в <em>main.rs</em> буде досить маленьким, щоб перевірити його правильність, прочитавши його. Переробімо нашу програму відповідно до цього процесу.</p>
+<h4 id="Перенесення-аналізатора-аргументів"><a class="header" href="#Перенесення-аналізатора-аргументів">Перенесення аналізатора аргументів</a></h4>
+<p>Ми перенесемо функціональність для аналізу аргументів у функцію, котру буде викликати <code>main</code>, щоб підготувати переміщення логіки розбору командного рядка до <em>src/lib. s</em>. Блок коду 12-5 показує початок нової функції <code>main</code>, яка викликає нову функцію <code>parse_config</code>, котру ми скоро визначимо в <em>src/main.rs</em>.</p>
+<p><span class="filename">Файл: src/main.rs</span></p>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">
+</span>fn main() {
+    let args: Vec&lt;String&gt; = env::args().collect();
+
+    let (query, file_path) = parse_config(&amp;args);
+
+    // --snip--
+<span class="boring">
+</span><span class="boring">    println!(&quot;Searching for {}&quot;, query);
+</span><span class="boring">    println!(&quot;In file {}&quot;, file_path);
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(file_path)
+</span><span class="boring">        .expect(&quot;Should have been able to read the file&quot;);
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;With text:\n{contents}&quot;);
+</span>}
+
+fn parse_config(args: &amp;[String]) -&gt; (&amp;str, &amp;str) {
+    let query = &amp;args[1];
+    let file_path = &amp;args[2];
+
+    (query, file_path)
+}</code></pre>
+<p><span class="caption">Блок коду 12-5: Вилучення функції <code>parse_config</code> з <code>main</code></span></p>
+<p>Ми все ще збираємо аргументи командного рядка до вектора, але замість присвоювати значення аргументу з індексом 1 змінній <code>query</code>, а значення аргументу з індексом 2 змінній <code>file_path</code> у функції <code>main</code>, ми передаємо весь вектор до функції <code>parse_config</code>. Функція <code>parse_config</code> містить логіку, що визначає, який аргумент потрапляє до якої змінної і передає значення на назад до <code>main</code>. Ми все ще створюємо змінні <code>query</code> та <code>file_path</code> у <code>main</code>, але <code>main</code> більше не відповідає за визначення, як співвідносяться аргументи командного рядка та змінні.</p>
+<p>Це перероблення може виглядати надмірним для нашої програми, але ми робимо рефакторизацію невеликими поступовими кроками. Після внесення цієї зміни знову запустіть програму, щоб перевірити, що аналіз аргументів все ще працює. Дуже добра ідея - часто перевіряти ваш прогрес, щоб легше було визначити причину проблем, коли вони з'являться.</p>
+<h4 id="Групування-конфігураційних-значень"><a class="header" href="#Групування-конфігураційних-значень">Групування конфігураційних значень</a></h4>
+<p>Ми можемо зробити ще один невеликий крок, щоб поліпшити функцію <code>parse_config</code>. На цей момент вона повертає кортеж, а потім ми відразу ж розбираємо цей кортеж на окремі частини. Це ознака того, що, можливо, ми ще не досягли правильної абстракції.</p>
+<p>Інший показник, що вказує на місце для покращення - це частина <code>config</code> функції <code>parse_config</code>, яка має на увазі, що два значення, що ми повертаємо, пов'язані і є частинами одного конфігураційного значення. Наразі ми передаємо це в структурі даних простим групуванням двох значень у кортеж, що не дуже виразно; натомість покладімо два значення в одну структуру і дамо кожному з полів змістовну назву. Таким чином ми полегшимо тим, хто підтримуватиме цей код у майбутньому, розуміння, як різні значення стосуються одне одного і яке їхнє призначення.</p>
+<p>Блок коду 12-6 показує покращення до функції <code>parse_config</code>.</p>
+<p><span class="filename">Файл: src/main.rs</span></p>
+<pre><code class="language-rust should_panic noplayground"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">
+</span>fn main() {
+    let args: Vec&lt;String&gt; = env::args().collect();
+
+    let config = parse_config(&amp;args);
+
+    println!(&quot;Searching for {}&quot;, config.query);
+    println!(&quot;In file {}&quot;, config.file_path);
+
+    let contents = fs::read_to_string(config.file_path)
+        .expect(&quot;Should have been able to read the file&quot;);
+
+    // --snip--
+<span class="boring">
+</span><span class="boring">    println!(&quot;With text:\n{contents}&quot;);
+</span>}
+
+struct Config {
+    query: String,
+    file_path: String,
+}
+
+fn parse_config(args: &amp;[String]) -&gt; Config {
+    let query = args[1].clone();
+    let file_path = args[2].clone();
+
+    Config { query, file_path }
+}</code></pre>
+<p><span class="caption">Блок коду 12-6: Рефакторизація функції <code>parse_config</code>, що тепер повертає екземпляр структури <code>Config</code></span></p>
+<p>Ми додали структуру, що зветься <code>Config</code>, у якій визначили поля, що звуться <code>query</code> та <code>file_path</code>. Сигнатура <code>parse_config</code> тепер показує, що вона повертає значення типу <code>Config</code>. У тілі <code>parse_config</code>, де раніше ми повертали стрічкові слайси, які посилалися на значення <code>String</code> у <code>args</code>, тепер ми задаємо значення <code>String</code>, якими володіє <code>Config</code>. Змінна <code>args</code> у <code>main</code> є власником значень аргументів і лише дозволяє функції <code>parse_config</code> позичити їх, тобто ми б порушили правила позичання Rust якби <code>Config</code> пробував взяти володіння значеннями з <code>args</code>.</p>
+<p>Є багато способів, як ми могли б керувати даними <code>String</code>; найпростіший, хоча і дещо неефективний спосіб - викликати метод <code>clone</code> для значень. Це зробить повну копію даних для надання володіння екземпляра <code>Config</code>, що потребує більше часу і пам'яті, ніж зберігання посилання на дані стрічки. Однак клонування даних також робить наш код вкрай прямолінійним, бо нам не треба керувати часами існування посилань; за цих обставин, віддати трохи продуктивності задля спрощення є гідним компромісом.</p>
+<blockquote>
+<h3 id="Використання-clone-як-компроміс"><a class="header" href="#Використання-clone-як-компроміс">Використання <code>clone</code> як компроміс</a></h3>
+<p>Існує тенденція, якої дотримується багато растацеанців, уникати використання <code>clone</code> для виправлення проблем із володінням через його ціну часу виконання. У  <a href="ch13-00-functional-features.html">Розділі 13</a><!-- ignore -->ви дізнаєтеся, як застосовувати ефективніші методи для ситуацій на кшталт цієї. Та поки що цілком прийнятно скопіювати кілька стрічок для продовження розробки, бо ці копії робляться лише один раз і шлях до файлу та стрічка запиту дуже маленькі. Краще мати дещо неефективну робочу програму, ніж намагатися з першого разу переоптимізувати код. Як ви ставатимете досвідченішими з Rust, ставатиме легше починати з найефективнішого рішення, та поки що цілком прийнятно викликати <code>clone</code>.</p>
+</blockquote>
+<p>Ми змінили <code>main</code>, і тепер він розміщує екземпляр <code>Config</code>, повернутий <code>parse_config</code>, у змінну на ім'я <code>config</code>, і змінили код, що раніше розділяв змінні <code>query</code> та <code>file_path</code>, щоб він натомість використовував поля у структурі <code>Config</code>.</p>
+<p>Тепер наш код ясніше передає, що <code>query</code> та <code>file_path</code> пов'язані, і що їхнє призначення - конфігурувати роботу програми. Будь-який код, що використовує ці значення, знає, що їх треба шукати у екземплярі <code>config</code> у полях з назвами, що відповідають їхньому призначенню.</p>
+<h4 id="Створення-конструктора-для-config"><a class="header" href="#Створення-конструктора-для-config">Створення конструктора для <code>Config</code></a></h4>
+<p>Ми вже перенесли логіку, що відповідає за обробку аргументів командного рядка, з <code>main</code> і помістили її у функції <code>parse_config</code>. Це допомогло нам побачити, що змінні <code>query</code> та <code>file_path</code> пов'язані і цей зв'язок має бути показаним у коді. Потім ми додали структуру <code>Config</code>, щоб назвати об'єднані за призначенням змінні <code>query</code> та <code>file_path</code> і щоб можна було повертати імена значень як поля структури з функції <code>parse_config</code>.</p>
+<p>Тож тепер, оскільки призначення функції <code>parse_config</code> - створити екземпляр <code>Config</code>, ми можемо змінити <code>parse_config</code> зі звичайної функції на функцію, що зветься <code>new</code>, асоційонвану зі структурою <code>Config</code>. Ця зміна зробить код більш ідіоматичним. Ми можемо створювати екземпляри типів зі стандартної бібліотеки, такі як <code>String</code>, викликом <code>String::new</code>. Подібним чином, змінивши <code>parse_config</code> на функцію <code>new</code>, асоційовану з <code>Config</code>, ми зможемо створювати екземпляри <code>Config</code> викликом <code>Config::new</code>. Блок коду 12-7 показує, які зміни треба зробити.</p>
+<p><span class="filename">Файл: src/main.rs</span></p>
+<pre><code class="language-rust should_panic noplayground"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">
+</span>fn main() {
+    let args: Vec&lt;String&gt; = env::args().collect();
+
+    let config = Config::new(&amp;args);
+<span class="boring">
+</span><span class="boring">    println!(&quot;Searching for {}&quot;, config.query);
+</span><span class="boring">    println!(&quot;In file {}&quot;, config.file_path);
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(config.file_path)
+</span><span class="boring">        .expect(&quot;Should have been able to read the file&quot;);
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;With text:\n{contents}&quot;);
+</span>
+    // --snip--
+}
+
+// --snip--
+
+<span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Config {
+    fn new(args: &amp;[String]) -&gt; Config {
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        Config { query, file_path }
+    }
+}</code></pre>
+<p><span class="caption">Listing 12-7: Зміна <code>parse_config</code> на <code>Config::new</code></span></p>
+<p>Ми замінили у <code>main</code> виклик <code>parse_config</code> на виклик <code>Config::new</code>. Ми змінили ім'я <code>parse_config</code> на <code>new</code> і перенесли її в блок <code>impl</code>, асоціювавши функцію <code>new</code> з <code>Config</code>. Спробуйте скомпілювати цей код ще раз, щоб переконатися, що він працює.</p>
+<h3 id="Виправлення-обробки-помилок"><a class="header" href="#Виправлення-обробки-помилок">Виправлення обробки помилок</a></h3>
+<p>Тепер ми попрацюємо над виправленням обробки помилок. Згадайте, що спроби отримати доступ до значень у векторі <code>args</code> за індексами 1 чи 2 призведе до паніки програми, якщо у векторі менш ніж три елементи. Спробуйте запустити програму без будь-яких аргументів; це виглядатиме так:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling minigrep v0.1.0 (file:///projects/minigrep)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.0s
+     Running `target/debug/minigrep`
+thread 'main' panicked at 'index out of bounds: the len is 1 but the index is 1', src/main.rs:27:21
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>Рядок <code>index out of bounds: the len is 1 but the index is 1</code> - це повідомлення про помилку, призначене для програмістів. Воно не допоможе кінцевим користувачам зрозуміти, що вони мають робити. Полагодьмо це.</p>
+<h4 id="Поліпшення-повідомлення-про-помилку"><a class="header" href="#Поліпшення-повідомлення-про-помилку">Поліпшення повідомлення про помилку</a></h4>
+<p>У Блоці коду 12-8 ми додаємо перевірку у функцію <code>new</code>, що підтверджує, що слайс достатньо довгий, перед тим як звертатися до індексів 1 та 2. Якщо слайс недостатньо довгий, програма панікує і показує краще повідомлення про помилку.</p>
+<p><span class="filename">Файл: src/main.rs</span></p>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::new(&amp;args);
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;Searching for {}&quot;, config.query);
+</span><span class="boring">    println!(&quot;In file {}&quot;, config.file_path);
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(config.file_path)
+</span><span class="boring">        .expect(&quot;Should have been able to read the file&quot;);
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;With text:\n{contents}&quot;);
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Config {
+</span>    // --snip--
+    fn new(args: &amp;[String]) -&gt; Config {
+        if args.len() &lt; 3 {
+            panic!(&quot;not enough arguments&quot;);
+        }
+        // --snip--
+<span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Config { query, file_path }
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<p><span class="caption">Блок коду 12-8: Додавання перевірки на число аргументів</span></p>
+<p>Цей код подібний до <a href="ch09-03-to-panic-or-not-to-panic.html#creating-custom-types-for-validation">функції <code>Guess::new</code>, яку ми написали у Блоці коду 9-13</a><!-- ignore -->, де ми викликали <code>panic!</code>, коли аргумент <code>value</code> був поза діапазоном припустимих значень. Тут, замість перевірки діапазону значень, ми перевіряємо, що довжина <code>args</code> є принаймні 3, і решта функції може працювати з припущенням, що ця умова виконується. Якщо <code>args</code> має менш ніж три елементи, ця умова буде істинною, і ми викличемо макрос <code>panic!</code>, щоб негайно завершити програму.</p>
+<p>Після додавання цих кількох рядків коду до <code>new</code> знову запустімо програму без аргументів, щоб побачити, як помилка виглядатиме тепер:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling minigrep v0.1.0 (file:///projects/minigrep)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.0s
+     Running `target/debug/minigrep`
+thread 'main' panicked at 'not enough arguments', src/main.rs:26:13
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>Це вже краще: тепер ми маємо зрозуміле повідомлення про помилку. Однак, ми також маємо побічну інформацію, яку не хочемо надавати нашим користувачам. Мабуть, техніка, яку ми використовували в Блоці коду 9-13, не найліпше підходить сюди: виклик <code>panic!</code> більш доречний для проблеми з програмуванням, ніж до проблеми з використанням, <a href="ch09-03-to-panic-or-not-to-panic.html#guidelines-for-error-handling">що обговорювалося в Розділі 9</a><!-- ignore -->. Натомість ми використаємо іншу техніку, про яку ви дізналися з Розділу 9 - <a href="ch09-02-recoverable-errors-with-result.html">повернення <code>Result</code></a><!-- ignore --> , що позначає успіх чи помилку.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="returning-a-result-from-new-instead-of-calling-panic"></a></p>
+<h4 id="Повертаємо-result-замість-виклику-panic"><a class="header" href="#Повертаємо-result-замість-виклику-panic">Повертаємо <code>Result</code> замість виклику <code>panic!</code></a></h4>
+<p>Ми можемо натомість повернути значення <code>Result</code>, що мітитиме екземпляр <code>Config</code> при успіху і описуватиме проблему у випадку помилки. Ми також збираємося змінити назву функції з <code>new</code> на <code>build</code>, бо багато програмістів очікують, що функції <code>new</code> ніколи не зазнають невдачі. Коли <code>Config::build</code> передає повідомлення до <code>main</code>, ми можемо використати тип <code>Result</code>, щоб сигналізувати про проблему. Потім ми можемо змінити <code>main</code>, щоб перетворити варіант <code>Err</code> на більш практичне повідомлення для наших користувачів без зайвого тексту про <code>thread 'main'</code> і <code>RUST_BACKTRACE</code>, як робить виклик <code>panic!</code>.</p>
+<p>Блок коду 12-9 показує зміни до функції, що тепер зветься <code>Config::build</code>, які ми маємо зробити, щоб значення, що повертається з неї, було типу <code>Result</code>, і відповідне тіло функції. Зверніть увагу, що цей код не скомпілюється, доки ми не змінимо також і <code>main</code>, що ми робимо в наступному блоці коду.</p>
+<p><span class="filename">Filename: src/main.rs</span></p>
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::new(&amp;args);
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;Searching for {}&quot;, config.query);
+</span><span class="boring">    println!(&quot;In file {}&quot;, config.file_path);
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(config.file_path)
+</span><span class="boring">        .expect(&quot;Should have been able to read the file&quot;);
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;With text:\n{contents}&quot;);
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Config {
+    fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+        if args.len() &lt; 3 {
+            return Err(&quot;not enough arguments&quot;);
+        }
+
+        let query = args[1].clone();
+        let file_path = args[2].clone();
+
+        Ok(Config { query, file_path })
+    }
+}</code></pre>
+<p><span class="caption">Блок коду 12-9: Повертання <code>Result</code> з <code>Config::build</code></span></p>
+<p>Наша функція <code>build</code> тепер повертає <code>Result</code> з екземпляром <code>Config</code> у разі успіху і <code>&amp;'static str</code> у разі помилки. Значення наших помилок завжди будуть стрічковими літералами з часом існування <code>'static</code>.</p>
+<p>Ми зробили дві зміни у тілі функції: замість виклику <code>panic!</code>, коли користувач не надав достатньо аргументів, ми тепер повертаємо значення <code>Err</code>, і ми обгорнули значення <code>Config</code>, що ми повертаємо, у <code>Ok</code>. Ці зміни узгоджують функцію з новою сигнатурою типу.</p>
+<p>Повертання значення <code>Err</code> з <code>Config::build</code> дозволяє функції <code>main</code> обробити значення <code>Result</code>, повернуте з функції <code>build</code>, і вийти з процесу чистіше у випадку помилки.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="calling-confignew-and-handling-errors"></a></p>
+<h4 id="Виклик-configbuild-і-обробка-помилок"><a class="header" href="#Виклик-configbuild-і-обробка-помилок">Виклик <code>Config::build</code> і обробка помилок</a></h4>
+<p>Щоб обробити випадок з помилкою і вивести дружнє для користувача повідомлення, нам треба змінити <code>main</code>, щоб обробити <code>Result</code>, повернений <code>Config::build</code>, як показано у Блоці коду 12-10. Ми також візьмемо відповідальність за вихід з інструменту командного рядка з ненульовим кодом помилки з <code>panic!</code> і реалізуємо його самостійно. Ненульовий статус на виході - це угода, щоб повідомити процесу, який викликав нашу програму, що програма завершилася з помилкою.</p>
+<p><span class="filename">Файл: src/main.rs</span></p>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span>use std::process;
+
+fn main() {
+    let args: Vec&lt;String&gt; = env::args().collect();
+
+    let config = Config::build(&amp;args).unwrap_or_else(|err| {
+        println!(&quot;Problem parsing arguments: {err}&quot;);
+        process::exit(1);
+    });
+
+    // --snip--
+<span class="boring">
+</span><span class="boring">    println!(&quot;Searching for {}&quot;, config.query);
+</span><span class="boring">    println!(&quot;In file {}&quot;, config.file_path);
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(config.file_path)
+</span><span class="boring">        .expect(&quot;Should have been able to read the file&quot;);
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;With text:\n{contents}&quot;);
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Config {
+</span><span class="boring">    fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">        if args.len() &lt; 3 {
+</span><span class="boring">            return Err(&quot;not enough arguments&quot;);
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Ok(Config { query, file_path })
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<p><span class="caption">Блок коду 12-10: Вихід з кодом помилки, якщо збірка <code>Config</code> була невдалою</span></p>
+<p>У цьому блоці коду ми скористалися методом, про який ще детально не розповідали - <code>unwrap_or_else</code>, що визначено на <code>Result&lt;T, E&gt;</code> у стандартній бібліотеці. <code>unwrap_or_else</code> дозволяє визначати власну обробку помилок, без <code>panic!</code>. Якщо <code>Result</code> є значенням <code>Ok</code>, цей метод робить те саме, що й <code>unwrap</code>: повертає внутрішнє значення, загорнуте в <code>Ok</code>. Але якщо значення є <code>Err</code>, цей метод викликає код у <em>замиканні</em>, тобто анонімній функції, що ми визначаємо і передаємо аргументом до <code>unwrap_or_else</code>. Про замикання детальніше піде у <a href="ch13-00-functional-features.html">Розділі 13</a><!-- ignore -->. Поки що вам лише слід знати, що <code>unwrap_or_else</code> передасть внутрішнє значення <code>Err</code>, тобто у нашому випадку статичну стрічку <code>&quot;not enough arguments&quot;</code>, що ми додали в Блоці коду 12-9, нашому замиканню, як аргумент <code>err</code>, що визначається між вертикальними лініями. Код у замиканні зможе під час виконання використати значення <code>err</code>.</p>
+<p>Ми додали новий рядок <code>use</code>, щоб ввести <code>process</code> зі стандартної бібліотеки до області видимості. Код у замиканні, що буде виконано у випадку помилки, складається лише з двох рядків: ми виводимо значення <code>err</code> і потім викликаємо <code>process::exit</code>. Функція <code>process::exit</code> негайно зупиняє програму і повертає передане число як код статусу виходу. Це схоже на обробку помилок за допомогою <code>panic!</code>, як ми робили в Блоці коду 12-8, але ми більше не отримуємо зайвий вивід. Спробуймо:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling minigrep v0.1.0 (file:///projects/minigrep)
+    Finished dev [unoptimized + debuginfo] target(s) in 0.48s
+     Running `target/debug/minigrep`
+Problem parsing arguments: not enough arguments
+</code></pre>
+<p>Чудово! Це повідомлення набагато дружніше до наших користувачів.</p>
+<h3 id="Перенесення-логіки-з-main"><a class="header" href="#Перенесення-логіки-з-main">Перенесення логіки з <code>main</code></a></h3>
+<p>Тепер, коли ми закінчили рефакторизацію аналізу конфігурації, повернімося до логіки програми. Як ми казали в <a href="#separation-of-concerns-for-binary-projects">&quot;Розділення зон інтересів у двійкових проєктах&quot;</a><!-- ignore -->, ми виділимо функцію, що зветься <code>run</code>, що міститиме всю логіку, наразі розміщену у функції <code>main</code>, яка не бере участі у встановленні конфігурації чи обробці помилок. Коли ми закінчимо, <code>main</code> стане виразним і легким для перевірки на помилки простим переглядом, і ми зможемо написати тести для решти логіки програми.</p>
+<p>Блок коду 12-11 показує виокремлену функцію <code>run</code>. Поки що, ми робимо маленькі, поступові покращення при виділенні функції. Ми все ще визначаємо цю функцію у <em>src/main.rs</em>.</p>
+<p><span class="filename">Файл: src/main.rs</span></p>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">use std::process;
+</span><span class="boring">
+</span>fn main() {
+    // --snip--
+
+<span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::build(&amp;args).unwrap_or_else(|err| {
+</span><span class="boring">        println!(&quot;Problem parsing arguments: {err}&quot;);
+</span><span class="boring">        process::exit(1);
+</span><span class="boring">    });
+</span><span class="boring">
+</span>    println!(&quot;Searching for {}&quot;, config.query);
+    println!(&quot;In file {}&quot;, config.file_path);
+
+    run(config);
+}
+
+fn run(config: Config) {
+    let contents = fs::read_to_string(config.file_path)
+        .expect(&quot;Should have been able to read the file&quot;);
+
+    println!(&quot;With text:\n{contents}&quot;);
+}
+
+// --snip--
+<span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Config {
+</span><span class="boring">    fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">        if args.len() &lt; 3 {
+</span><span class="boring">            return Err(&quot;not enough arguments&quot;);
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Ok(Config { query, file_path })
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<p><span class="caption">Блок коду 12-11: Виділення функції <code>run</code>, що містить решту логіки програми</span></p>
+<p>Функція <code>run</code> тепер містить решту логіки з <code>main</code>, починаючи з читання файлу. Функція <code>run</code> приймає аргументом екземпляр <code>Config</code>.</p>
+<h4 id="Повертання-помилок-з-функції-run"><a class="header" href="#Повертання-помилок-з-функції-run">Повертання помилок з функції <code>run</code></a></h4>
+<p>Для решти логіки програми, виділеної в функцію <code>run</code>, ми можемо покращити обробку помилок, як ми зробили з <code>Config::build</code> у Блоці коду 12-9. Замість дозволяти програмі панікувати викликом <code>expect</code>, функція <code>run</code> повертатиме <code>Result&lt;T, E&gt;</code>, коли щось піде не так. Це дозволить нам об'єднати логіку обробки помилок у <code>main</code> у дружній для користувача спосіб. Блок коду 12-12 показує зміни, які нам треба зробити в сигнатурі і тілі <code>run</code>.</p>
+<p><span class="filename">Файл: src/main.rs</span></p>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::fs;
+</span><span class="boring">use std::process;
+</span>use std::error::Error;
+
+// --snip--
+
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::build(&amp;args).unwrap_or_else(|err| {
+</span><span class="boring">        println!(&quot;Problem parsing arguments: {err}&quot;);
+</span><span class="boring">        process::exit(1);
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;Searching for {}&quot;, config.query);
+</span><span class="boring">    println!(&quot;In file {}&quot;, config.file_path);
+</span><span class="boring">
+</span><span class="boring">    run(config);
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    let contents = fs::read_to_string(config.file_path)?;
+
+    println!(&quot;With text:\n{contents}&quot;);
+
+    Ok(())
+}
+<span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Config {
+</span><span class="boring">    fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">        if args.len() &lt; 3 {
+</span><span class="boring">            return Err(&quot;not enough arguments&quot;);
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Ok(Config { query, file_path })
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<p><span class="caption">Блок коду 12-12: Зміна функції <code>run</code>, що повертає <code>Result</code></span></p>
+<p>Ми зробили тут три суттєві зміни. По-перше, ми змінили тип, що повертає функція <code>run</code>, на <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code>. Ця функція раніше повертала одиничний тип, <code>()</code>, і ми залишаємо це значення у випадку <code>Ok</code>.</p>
+<p>Для типу помилок, ми використовуємо <em>трейтовий об'єкт</em> <code>Box&lt;dyn Error&gt;</code> (і ми внесли <code>std::error::Error</code> до області видимості за допомогою інструкції <code>use</code> на початку). Ми розкажемо про трейтові об'єкти у <a href="ch17-00-oop.html">Розділі 17</a><!-- ignore -->. Поки що, вам достатньо знати, що <code>Box&lt;dyn Error&gt;</code> означає, що функція поверне тип, що реалізує трейт <code>Error</code>, але ми не маємо зазначати який це буде конкретний тип значення. Це надає нам гнучкості, щоб повертати значення, які можуть бути різних типів у випадках різних помилок. Ключове слово <code>dyn</code> - це скорочення для &quot;динамічний&quot; (“dynamic”).</p>
+<p>По-друге, ми прибрали виклик <code>expect</code>, замінивши його натомість оператором <code>?</code>, як ми й говорили у <a href="ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator">Розділі 9</a><!-- ignore -->. Замість виклику <code>panic!</code> при помилці, <code>?</code> поверне значення помилки з поточної функції тому, хто її викликав, для обробки.</p>
+<p>По-третє, функція <code>run</code> тепер повертає значення <code>Ok</code> у випадку успіху. Ми проголосили у сигнатурі, що тип успіху функції <code>run</code> - <code>()</code>, що означає, що нам потрібно обгорнути значення одиничного типу у значення <code>Ok</code>. Цей запис <code>Ok(())</code> може спершу видаватися трохи дивним, але використання <code>()</code> подібним чином є ідіоматичним способом позначити, що ми викликаємо <code>run</code> лише задля його побічних ефектів; він не повертає потрібного значення.</p>
+<p>Коли ви запускаєте цей код, він скомпілюється, але покаже попередження:</p>
+<pre><code class="language-console">$ cargo run the poem.txt
+   Compiling minigrep v0.1.0 (file:///projects/minigrep)
+warning: unused `Result` that must be used
+  --&gt; src/main.rs:19:5
+   |
+19 |     run(config);
+   |     ^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_must_use)]` on by default
+   = note: this `Result` may be an `Err` variant, which should be handled
+
+warning: `minigrep` (bin &quot;minigrep&quot;) generated 1 warning
+    Finished dev [unoptimized + debuginfo] target(s) in 0.71s
+     Running `target/debug/minigrep the poem.txt`
+Searching for the
+In file poem.txt
+With text:
+I'm nobody! Who are you?
+Are you nobody, too?
+Then there's a pair of us - don't tell!
+They'd banish us, you know.
+
+How dreary to be somebody!
+How public, like a frog
+To tell your name the livelong day
+To an admiring bog!
+
+</code></pre>
+<p>Rust каже нам, що наш код проігнорував значення <code>Result</code> і що це значення <code>Result</code> може показувати, що сталася помилка. Але ми не перевіряємо, чи не було помилки, і компілятор нагадує нам, що ми, мабуть, хотіли б додати сюди код для обробки помилок! Виправмо одразу цю проблему.</p>
+<h4 id="Обробка-помилок-повернутих-з-run-до-main"><a class="header" href="#Обробка-помилок-повернутих-з-run-до-main">Обробка помилок, повернутих з <code>run</code> до <code>main</code></a></h4>
+<p>Ми перевірятимемо на помилки і оброблятимемо їх за допомогою техніки, подібної до тої, якою ми скористалися з <code>Config::build</code>, з невеликою відмінністю:</p>
+<p><span class="filename">Файл: src/main.rs</span></p>
+<pre><code class="language-rust ignore"><span class="boring">use std::env;
+</span><span class="boring">use std::error::Error;
+</span><span class="boring">use std::fs;
+</span><span class="boring">use std::process;
+</span><span class="boring">
+</span>fn main() {
+    // --snip--
+
+<span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::build(&amp;args).unwrap_or_else(|err| {
+</span><span class="boring">        println!(&quot;Problem parsing arguments: {err}&quot;);
+</span><span class="boring">        process::exit(1);
+</span><span class="boring">    });
+</span><span class="boring">
+</span>    println!(&quot;Searching for {}&quot;, config.query);
+    println!(&quot;In file {}&quot;, config.file_path);
+
+    if let Err(e) = run(config) {
+        println!(&quot;Application error: {e}&quot;);
+
+        process::exit(1);
+    }
+}
+<span class="boring">
+</span><span class="boring">fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+</span><span class="boring">    let contents = fs::read_to_string(config.file_path)?;
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;With text:\n{contents}&quot;);
+</span><span class="boring">
+</span><span class="boring">    Ok(())
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Config {
+</span><span class="boring">    query: String,
+</span><span class="boring">    file_path: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Config {
+</span><span class="boring">    fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+</span><span class="boring">        if args.len() &lt; 3 {
+</span><span class="boring">            return Err(&quot;not enough arguments&quot;);
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Ok(Config { query, file_path })
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<p>Ми використовуємо <code>if let</code> замість <code>unwrap_or_else</code> для перевірки, чи <code>run</code> повертає значення <code>Err</code> і викликаємо в цьому випадку <code>process::exit(1)</code>. Функція <code>run</code> не повертає значення, яке б ми хотіли отримати за допомогою <code>unwrap</code>, на відміну від <code>Config::build</code>, що повертає екземпляр <code>Config</code>. Оскільки <code>run</code> у випадку успіху повертає <code>()</code>, нас турбує лише виявлення помилки, тож нам не потрібен <code>unwrap_or_else</code> для отримання видобутого значення, яке може бути лише <code>()</code>.</p>
+<p>Тіла <code>if let</code> та функції <code>unwrap_or_else</code> однакові в обох випадках: ми виводимо помилку і виходимо.</p>
+<h3 id="Виділення-коду-у-бібліотечний-крейт"><a class="header" href="#Виділення-коду-у-бібліотечний-крейт">Виділення коду у бібліотечний крейт</a></h3>
+<p>Наш проєкт <code>minigrep</code> поки що має непоганий вигляд! Тепер ми поділимо файл <em>src/main.rs</em> і перенесемо частину коду у файл <em>src/lib.rs</em>. Таким чином, ми зможемо тестувати код, залишивши файлу <em>src/main.rs</em> менше відповідальності.</p>
+<p>Перенесімо весь код, крім функції <code>main</code>, з <em>src/main.rs</em> до <em>src/lib.rs</em>:</p>
+<ul>
+<li>Визначення функції <code>run</code></li>
+<li>Відповідні інструкції <code>use</code></li>
+<li>Визначення <code>Config</code></li>
+<li>Визначення функції <code>Config::build</code></li>
+</ul>
+<p>Вміст <em>src/lib.rs</em> має містити сигнатури, показані в Блоці коду 12-13 (ми опустили тіла функцій для стислості). Зверніть увагу, що цей код не скомпілюється, поки ми не змінимо <em>src/main.rs</em> у Блоці коду 12-14.</p>
+<p><span class="filename">Файл: src/lib.rs</span></p>
+<pre><code class="language-rust ignore does_not_compile">use std::error::Error;
+use std::fs;
+
+pub struct Config {
+    pub query: String,
+    pub file_path: String,
+}
+
+impl Config {
+    pub fn build(args: &amp;[String]) -&gt; Result&lt;Config, &amp;'static str&gt; {
+        // --snip--
+<span class="boring">        if args.len() &lt; 3 {
+</span><span class="boring">            return Err(&quot;not enough arguments&quot;);
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        let query = args[1].clone();
+</span><span class="boring">        let file_path = args[2].clone();
+</span><span class="boring">
+</span><span class="boring">        Ok(Config { query, file_path })
+</span>    }
+}
+
+pub fn run(config: Config) -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    // --snip--
+<span class="boring">    let contents = fs::read_to_string(config.file_path)?;
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;With text:\n{contents}&quot;);
+</span><span class="boring">
+</span><span class="boring">    Ok(())
+</span>}</code></pre>
+<p><span class="caption">Блок коду 12-13: Перенесення <code>Config</code> і <code>run</code> до <em>src/lib.rs</em></span></p>
+<p>Ми дещо вільно використали ключове слово <code>pub</code>: для <code>Config</code>, його полів і його методу <code>build</code>, а також для функції <code>run</code>. Тепер ми маємо бібліотечний крейт, що має публічний API, який ми можемо тестувати!</p>
+<p>Now we need to bring the code we moved to <em>src/lib.rs</em> into the scope of the binary crate in <em>src/main.rs</em>, as shown in Listing 12-14.</p>
+<p><span class="filename">Файл: src/main.rs</span></p>
+<pre><code class="language-rust ignore">use std::env;
+use std::process;
+
+use minigrep::Config;
+
+fn main() {
+    // --snip--
+<span class="boring">    let args: Vec&lt;String&gt; = env::args().collect();
+</span><span class="boring">
+</span><span class="boring">    let config = Config::build(&amp;args).unwrap_or_else(|err| {
+</span><span class="boring">        println!(&quot;Problem parsing arguments: {err}&quot;);
+</span><span class="boring">        process::exit(1);
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    println!(&quot;Searching for {}&quot;, config.query);
+</span><span class="boring">    println!(&quot;In file {}&quot;, config.file_path);
+</span><span class="boring">
+</span>    if let Err(e) = minigrep::run(config) {
+        // --snip--
+<span class="boring">        println!(&quot;Application error: {e}&quot;);
+</span><span class="boring">
+</span><span class="boring">        process::exit(1);
+</span>    }
+}</code></pre>
+<p><span class="caption">Блок коду 12-14: Використання бібліотечного крейту <code>minigrep</code> у <em>src/main.rs</em></span></p>
+<p>Ми додали рядок <code>use minigrep::Config</code>, щоб внести тип <code>Config</code> з бібліотечного крейту до області видимості двійкового крейту, і додали перед функцією <code>run</code> назву нашого крейту. Тепер уся функціональність має бути з'єднана і мусить працювати. Запустіть програму за допомогою <code>cargo run</code> і переконайтеся, що все працює правильно.</p>
+<p>Хух! Добряче попрацювали, але налаштували себе на успіх у майбутньому. Тепер буде значно легше обробляти помилки, і ми зробили код більш модульним. Майже вся наша робота з цього моменту буде виконуватися в <em>src/lib.rs</em>.</p>
+<p>Скористаймося з цієї новоствореної модульності, зробивши дещо, що було б складним зі старим кодом, але легко з новим: напишемо кілька тестів!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch12-02-reading-a-file.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="ch12-04-testing-the-librarys-functionality.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch12-02-reading-a-file.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="ch12-04-testing-the-librarys-functionality.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>
